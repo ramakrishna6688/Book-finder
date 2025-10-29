@@ -1,0 +1,38 @@
+import requests
+
+def find_book(query):
+    print(f"\nSearching for: {query}\n")
+    url = f"https://www.googleapis.com/books/v1/volumes?q={query}"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print("Error fetching data from Google Books API.")
+        return
+
+    data = response.json()
+
+    # Check if any book is found
+    if "items" not in data or len(data["items"]) == 0:
+        print("No books found.")
+        return
+
+    # Take only the first (top) book
+    book = data["items"][0].get("volumeInfo", {})
+    title = book.get("title", "No title available")
+    authors = book.get("authors", ["Unknown Author"])
+    description = book.get("description", "No description available")
+
+    print("📖 Book Found:")
+    print(f"Title      : {title}")
+    print(f"Author(s)  : {', '.join(authors)}")
+    print(f"Description: {description[:300]}...\n")  # Show only first 300 chars
+
+
+if __name__ == "__main__":
+    print("=== 📚 Welcome to Single Book Finder ===")
+    while True:
+        query = input("\nEnter a book name or author (or 'exit' to quit): ").strip()
+        if query.lower() == "exit":
+            print("Goodbye! 👋")
+            break
+        find_book(query)
