@@ -29,10 +29,11 @@ def find_book(query):
 
 
 if __name__ == "__main__":
-    print("=== 📚 Welcome to Single Book Finder ===")
+    print("===  Welcome to Single Book Finder ===")
     while True:
         query = input("\nEnter a book name or author (or 'exit' to quit): ").strip()
         if query.lower() == "exit":
             print("Goodbye! 👋")
             break
         find_book(query)
+
